@@ -1,0 +1,56 @@
+package com.projects.shrungbhatt.medikit;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by jigsaw on 22/2/18.
+ */
+
+public class Adapter_MedicineList extends
+        RecyclerView.Adapter<Adapter_MedicineList.MedicineViewHolder> {
+
+    private Context mContext;
+    private List<String> mMedicines;
+
+    public Adapter_MedicineList(Context context,List<String> medicines){
+        mContext = context;
+        mMedicines = medicines;
+    }
+
+    @Override
+    public MedicineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        return new MedicineViewHolder(inflater,parent);
+    }
+
+    @Override
+    public void onBindViewHolder(MedicineViewHolder holder, int position) {
+
+        holder.mNameTextView.setText(mMedicines.get(position));
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMedicines.size();
+    }
+
+    class MedicineViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mNameTextView;
+
+        MedicineViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_medicine, parent, false));
+
+            mNameTextView = itemView.findViewById(R.id.list_item_medicine_name);
+        }
+
+    }
+}
