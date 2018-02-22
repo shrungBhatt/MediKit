@@ -41,8 +41,7 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".MedicineDetailActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MedicineListActivity"/>
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
