@@ -4,11 +4,14 @@
 
     <item
         android:id="@+id/menu_item_search"
-        android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
-
+    <item
+        android:id="@+id/log_out_menu_item"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
 
 </menu>

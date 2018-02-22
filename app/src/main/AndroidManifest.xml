@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.projects.shrungbhatt.medikit">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,16 +12,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DiseaseListActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <activity android:name=".MedicineListActivity"
-            android:parentActivityName=".DiseaseListActivity"/>
+        <activity
+            android:name=".DiseaseListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".MedicineListActivity"
+            android:parentActivityName=".DiseaseListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".Activity_Signup"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".MedicineDetailActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MedicineListActivity"/>
     </application>
 
 </manifest>

@@ -1,13 +1,23 @@
 package com.projects.shrungbhatt.medikit;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +42,8 @@ public class DiseaseListActivity extends AppCompatActivity {
     @BindView(R.id.disease_list_recycler_view)
     RecyclerView diseaseListRecyclerView;
 
+    private Dialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +58,26 @@ public class DiseaseListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.log_out_menu_item) {
+            if(isNetworkAvailableAndConnected()){
+                MySharedPreferences.setStoredLoginStatus(DiseaseListActivity.this,false);
+                Intent i = new Intent(DiseaseListActivity.this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+                finish();
+            }else {
+                Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,6 +103,7 @@ public class DiseaseListActivity extends AppCompatActivity {
     }
 
     private void fetchDiseases(final String query) {
+        showProgressBar(DiseaseListActivity.this,"TAGG");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://ersnexus.esy.es/fetch_diseases_query.php",
                 new Response.Listener<String>() {
@@ -82,11 +115,14 @@ public class DiseaseListActivity extends AppCompatActivity {
                             Res_DiseaseModel res_diseaseModel;
                             res_diseaseModel = gson.fromJson(jsonObject.toString(), Res_DiseaseModel.class);
                             ArrayList<Res_DiseaseModel.List> list = res_diseaseModel.getList();
+                            hideProgressBar();
                             diseaseListRecyclerView.setAdapter(new
                                     Adapter_DiseaseList(DiseaseListActivity.this,
                                     list));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideProgressBar();
                         }
 
 
@@ -111,5 +147,42 @@ public class DiseaseListActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    private boolean isNetworkAvailableAndConnected () {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        boolean isNetworkAvailable = cm.getActiveNetworkInfo() != null;
+
+        return isNetworkAvailable &&
+                cm.getActiveNetworkInfo().isConnected();
+    }
+
+    public void showProgressBar(Context context, String TAG) {
+        mProgressDialog = new Dialog(context);
+        mProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mProgressDialog.setContentView(R.layout.circleprogress);
+        mProgressDialog.setCancelable(false);
+
+        mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        mProgressDialog.getWindow().setGravity(Gravity.CENTER);
+        try {
+            mProgressDialog.show();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+    }
+
+    public void hideProgressBar() {
+        try {
+            if (mProgressDialog != null) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("BaseClassForInterface", "Error in hideProgressBar");
+        }
     }
 }

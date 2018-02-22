@@ -3,6 +3,7 @@ package com.projects.shrungbhatt.medikit;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -31,9 +32,16 @@ public class Adapter_MedicineList extends
     }
 
     @Override
-    public void onBindViewHolder(MedicineViewHolder holder, int position) {
+    public void onBindViewHolder(MedicineViewHolder holder, final int position) {
 
         holder.mNameTextView.setText(mMedicines.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(MedicineDetailActivity.newIntent(mContext,
+                        mMedicines.get(position)));
+            }
+        });
 
     }
 
