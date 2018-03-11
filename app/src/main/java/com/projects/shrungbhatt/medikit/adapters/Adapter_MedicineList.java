@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.projects.shrungbhatt.medikit.Activity_MedicineDetail;
+import com.projects.shrungbhatt.medikit.R;
+
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public class Adapter_MedicineList extends
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(MedicineDetailActivity.newIntent(mContext,
+                mContext.startActivity(Activity_MedicineDetail.newIntent(mContext,
                         mMedicines.get(position)));
             }
         });

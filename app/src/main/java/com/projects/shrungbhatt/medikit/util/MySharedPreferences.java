@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.util;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

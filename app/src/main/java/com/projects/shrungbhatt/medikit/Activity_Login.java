@@ -18,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
+import com.projects.shrungbhatt.medikit.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +30,7 @@ import java.util.Map;
  */
 
 
-public class LoginActivity extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     public static Activity mActivity;
@@ -47,13 +49,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //To check whether the user is logged in or not.
-        boolean status = MySharedPreferences.getStoredLoginStatus(LoginActivity.this);
+        boolean status = MySharedPreferences.getStoredLoginStatus(Activity_Login.this);
         if (status) {
             Intent i;
             if (MySharedPreferences.isAdminLoggedOn(this)) {
-                i = new Intent(this, DiseaseListActivity.class);
+                i = new Intent(this, Activity_DiseaseList.class);
             } else {
-                i = new Intent(this, DiseaseListActivity.class);
+                i = new Intent(this, Activity_DiseaseList.class);
             }
             startActivity(i);
             finish();
@@ -78,13 +80,13 @@ public class LoginActivity extends AppCompatActivity {
                         if (isNetworkAvailableAndConnected())
                             requestLogin(macId, emailId, pass);//Login request for admin
                         else
-                            Toast.makeText(LoginActivity.this, "No internet connection",
+                            Toast.makeText(Activity_Login.this, "No internet connection",
                                     Toast.LENGTH_SHORT).show();
                     } else {
                         if (isNetworkAvailableAndConnected())
                             requestLogin(macId, emailId, pass);
                         else
-                            Toast.makeText(LoginActivity.this, "No internet connection",
+                            Toast.makeText(Activity_Login.this, "No internet connection",
                                     Toast.LENGTH_SHORT).show();
                     }//Login request for the user.
                 } else {
@@ -99,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, Activity_Signup.class);
+                Intent i = new Intent(Activity_Login.this, Activity_Signup.class);
                 startActivity(i);
 
             }
@@ -118,15 +120,15 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             if (response != null &&
                                     !response.equals("Wrong Username or Password")) {
-                                MySharedPreferences.setStoredLoginStatus(LoginActivity.this, true);
-                                MySharedPreferences.setStoredUsername(LoginActivity.this, userName);
+                                MySharedPreferences.setStoredLoginStatus(Activity_Login.this, true);
+                                MySharedPreferences.setStoredUsername(Activity_Login.this, userName);
                                 Intent i;
                                 if (userName.equals("admin")) {
-                                    MySharedPreferences.setIsAdminLoggedOn(LoginActivity.this, true);
-                                    i = new Intent(LoginActivity.this, DiseaseListActivity.class);
+                                    MySharedPreferences.setIsAdminLoggedOn(Activity_Login.this, true);
+                                    i = new Intent(Activity_Login.this, Activity_DiseaseList.class);
                                     finish();
                                 } else {
-                                    i = new Intent(LoginActivity.this, DiseaseListActivity.class);
+                                    i = new Intent(Activity_Login.this, Activity_DiseaseList.class);
                                     finish();
                                 }
                                 startActivity(i);

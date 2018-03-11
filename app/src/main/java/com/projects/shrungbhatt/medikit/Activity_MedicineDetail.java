@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.projects.shrungbhatt.medikit.models.Res_MedicineDetail;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ import butterknife.ButterKnife;
  * Created by jigsaw on 22/2/18.
  */
 
-public class MedicineDetailActivity extends AppCompatActivity {
+public class Activity_MedicineDetail extends AppCompatActivity {
 
     public static final String EXTRA_MEDICINE_NAME = "medicine_name";
 
@@ -51,7 +52,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
     private String mMedicineName;
 
     public static Intent newIntent(Context context,String medicineName){
-        Intent intent = new Intent(context,MedicineDetailActivity.class);
+        Intent intent = new Intent(context,Activity_MedicineDetail.class);
         intent.putExtra(EXTRA_MEDICINE_NAME,medicineName);
         return intent;
     }
@@ -70,7 +71,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
     }
 
     private void fetchMedicineDetails(final String medicineName){
-        showProgressBar(MedicineDetailActivity.this,"TAG");
+        showProgressBar(Activity_MedicineDetail.this,"TAG");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://ersnexus.esy.es/fetch_medicine_detail.php",
                 new Response.Listener<String>() {

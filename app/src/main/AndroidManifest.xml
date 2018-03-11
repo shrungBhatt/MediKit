@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name=".Activity_SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
@@ -24,23 +24,23 @@
         </activity>
 
         <activity
-            android:name=".DiseaseListActivity"
+            android:name=".Activity_DiseaseList"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".MedicineListActivity"
-            android:parentActivityName=".DiseaseListActivity"
+            android:name=".Activity_MedicineList"
+            android:parentActivityName=".Activity_DiseaseList"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity_Login"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".Activity_Signup"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".MedicineDetailActivity"
+        <activity android:name=".Activity_MedicineDetail"
             android:screenOrientation="portrait"/>
     </application>
 

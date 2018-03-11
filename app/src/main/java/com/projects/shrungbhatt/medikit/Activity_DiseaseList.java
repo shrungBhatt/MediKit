@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -26,6 +25,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.projects.shrungbhatt.medikit.adapters.Adapter_DiseaseList;
+import com.projects.shrungbhatt.medikit.models.Res_DiseaseModel;
+import com.projects.shrungbhatt.medikit.util.ItemDecorationAlbumColumns;
+import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +40,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DiseaseListActivity extends AppCompatActivity {
+public class Activity_DiseaseList extends AppCompatActivity {
 
     @BindView(R.id.disease_list_recycler_view)
     RecyclerView diseaseListRecyclerView;
@@ -65,8 +68,8 @@ public class DiseaseListActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.log_out_menu_item) {
             if(isNetworkAvailableAndConnected()){
-                MySharedPreferences.setStoredLoginStatus(DiseaseListActivity.this,false);
-                Intent i = new Intent(DiseaseListActivity.this, LoginActivity.class);
+                MySharedPreferences.setStoredLoginStatus(Activity_DiseaseList.this,false);
+                Intent i = new Intent(Activity_DiseaseList.this, Activity_Login.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
@@ -103,7 +106,7 @@ public class DiseaseListActivity extends AppCompatActivity {
     }
 
     private void fetchDiseases(final String query) {
-        showProgressBar(DiseaseListActivity.this,"TAGG");
+        showProgressBar(Activity_DiseaseList.this,"TAGG");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://ersnexus.esy.es/fetch_diseases_query.php",
                 new Response.Listener<String>() {
@@ -117,7 +120,7 @@ public class DiseaseListActivity extends AppCompatActivity {
                             ArrayList<Res_DiseaseModel.List> list = res_diseaseModel.getList();
                             hideProgressBar();
                             diseaseListRecyclerView.setAdapter(new
-                                    Adapter_DiseaseList(DiseaseListActivity.this,
+                                    Adapter_DiseaseList(Activity_DiseaseList.this,
                                     list));
 
                         } catch (JSONException e) {

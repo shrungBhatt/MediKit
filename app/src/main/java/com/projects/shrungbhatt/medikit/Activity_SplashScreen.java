@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class Activity_SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +17,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent mainIntent =
-                        new Intent(SplashScreenActivity.this,LoginActivity.class);
-                SplashScreenActivity.this.startActivity(mainIntent);
-                SplashScreenActivity.this.finish();
+                        new Intent(Activity_SplashScreen.this,Activity_Login.class);
+                Activity_SplashScreen.this.startActivity(mainIntent);
+                Activity_SplashScreen.this.finish();
             }
         }, 1000);
     }

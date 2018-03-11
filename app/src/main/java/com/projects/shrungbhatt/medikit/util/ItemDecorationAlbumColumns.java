@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.util;
 
 /**
  * Created by jigsaw on 18/2/18.

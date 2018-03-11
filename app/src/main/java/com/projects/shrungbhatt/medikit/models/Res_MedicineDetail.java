@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
