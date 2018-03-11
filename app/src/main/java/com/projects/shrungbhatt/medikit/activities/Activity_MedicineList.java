@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.adapters.Adapter_MedicineList;
 
 import java.util.Arrays;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by jigsaw on 22/2/18.
  */
 
-public class Activity_MedicineList extends AppCompatActivity {
+public class Activity_MedicineList extends BaseActivity {
 
     private static final String EXTRA_MEDICINE = "medicine_string";
     @BindView(R.id.medicine_list_recycler_view)

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.projects.shrungbhatt.medikit.Activity_MedicineDetail;
+import com.projects.shrungbhatt.medikit.activities.Activity_MedicineDetail;
 import com.projects.shrungbhatt.medikit.R;
 
 import java.util.List;

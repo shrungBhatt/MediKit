@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.util.Utils;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Created by jigsaw on 28/1/18.
  */
 
-public class Activity_Signup extends AppCompatActivity {
+public class Activity_Signup extends BaseActivity {
 
     private static final String TAG = "Activity_Signup";
     private EditText mUserEmail;

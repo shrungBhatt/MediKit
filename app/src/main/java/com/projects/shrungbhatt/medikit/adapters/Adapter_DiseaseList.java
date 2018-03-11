@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.projects.shrungbhatt.medikit.Activity_MedicineList;
+import com.projects.shrungbhatt.medikit.activities.Activity_MedicineList;
 import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.models.Res_DiseaseModel;
 

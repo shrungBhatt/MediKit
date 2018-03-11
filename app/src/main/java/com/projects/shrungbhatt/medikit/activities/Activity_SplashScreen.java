@@ -1,9 +1,11 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+
+import com.projects.shrungbhatt.medikit.R;
 
 public class Activity_SplashScreen extends AppCompatActivity {
 

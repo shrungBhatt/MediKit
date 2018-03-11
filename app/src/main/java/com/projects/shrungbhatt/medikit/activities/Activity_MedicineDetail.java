@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.activities;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -20,7 +20,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.models.Res_MedicineDetail;
+import com.projects.shrungbhatt.medikit.util.URLGenerator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +38,7 @@ import butterknife.ButterKnife;
  * Created by jigsaw on 22/2/18.
  */
 
-public class Activity_MedicineDetail extends AppCompatActivity {
+public class Activity_MedicineDetail extends BaseActivity {
 
     public static final String EXTRA_MEDICINE_NAME = "medicine_name";
 
@@ -73,11 +75,10 @@ public class Activity_MedicineDetail extends AppCompatActivity {
     private void fetchMedicineDetails(final String medicineName){
         showProgressBar(Activity_MedicineDetail.this,"TAG");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://ersnexus.esy.es/fetch_medicine_detail.php",
+                URLGenerator.FETCH_MEDICINES_LIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -99,6 +100,7 @@ public class Activity_MedicineDetail extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                hideProgressBar();
             }
         }){
             @Override
@@ -118,31 +120,5 @@ public class Activity_MedicineDetail extends AppCompatActivity {
 
     }
 
-    public void showProgressBar(Context context, String TAG) {
-        mProgressDialog = new Dialog(context);
-        mProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mProgressDialog.setContentView(R.layout.circleprogress);
-        mProgressDialog.setCancelable(false);
 
-        mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        mProgressDialog.getWindow().setGravity(Gravity.CENTER);
-        try {
-            mProgressDialog.show();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-    }
-
-    public void hideProgressBar() {
-        try {
-            if (mProgressDialog != null) {
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        } catch (Exception e) {
-            Log.e("BaseClassForInterface", "Error in hideProgressBar");
-        }
-    }
 }

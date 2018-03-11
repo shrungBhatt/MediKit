@@ -12,9 +12,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_SplashScreen"
+        <activity android:name=".activities.Activity_SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
 
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+
+        </activity>
+
+        <activity
+            android:name=".activities.Activity_DiseaseList"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.Activity_MedicineList"
+            android:parentActivityName=".activities.Activity_DiseaseList"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.Activity_Login"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activities.Activity_Signup"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activities.Activity_MedicineDetail"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activities.Activity_HospitalList"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,25 +53,6 @@
 
         </activity>
 
-        <activity
-            android:name=".Activity_DiseaseList"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".Activity_MedicineList"
-            android:parentActivityName=".Activity_DiseaseList"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".Activity_Login"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".Activity_Signup"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".Activity_MedicineDetail"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

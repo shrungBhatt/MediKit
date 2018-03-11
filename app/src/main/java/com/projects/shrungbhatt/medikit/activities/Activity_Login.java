@@ -1,4 +1,4 @@
-package com.projects.shrungbhatt.medikit;
+package com.projects.shrungbhatt.medikit.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
 import com.projects.shrungbhatt.medikit.util.Utils;
 
@@ -30,7 +31,7 @@ import java.util.Map;
  */
 
 
-public class Activity_Login extends AppCompatActivity {
+public class Activity_Login extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
     public static Activity mActivity;
