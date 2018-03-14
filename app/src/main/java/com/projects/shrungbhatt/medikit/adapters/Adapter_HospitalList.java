@@ -3,10 +3,12 @@ package com.projects.shrungbhatt.medikit.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.activities.Activity_HospitalSpeciality;
 import com.projects.shrungbhatt.medikit.models.Res_HospitalList;
 
 import java.util.ArrayList;
@@ -42,6 +44,13 @@ public class Adapter_HospitalList extends RecyclerView.Adapter<Adapter_HospitalL
         String rating = mContext.getString(R.string.star) + " " + mHospitalLists.get(position)
                 .getHospitalRating();
         holder.mHospitalRating.setText(rating);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(Activity_HospitalSpeciality.newIntent(mContext,
+                        mHospitalLists));
+            }
+        });
 
     }
 

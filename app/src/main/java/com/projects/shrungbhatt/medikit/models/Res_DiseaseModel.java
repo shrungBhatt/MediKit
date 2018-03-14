@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by jigsaw on 22/2/18.
  */
 
-public class Res_DiseaseModel {
+public class Res_DiseaseModel extends BaseModel{
 
 
     @SerializedName("list")
@@ -25,7 +25,7 @@ public class Res_DiseaseModel {
     }
 
 
-    public class List {
+    public class List extends BaseModel{
 
         @SerializedName("id")
         @Expose

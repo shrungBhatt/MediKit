@@ -47,7 +47,6 @@ public class Activity_DiseaseList extends BaseActivity {
     @BindView(R.id.disease_list_recycler_view)
     RecyclerView diseaseListRecyclerView;
 
-    private Dialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

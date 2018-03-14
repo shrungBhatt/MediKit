@@ -14,4 +14,7 @@ public class URLGenerator {
     public static final String FETCH_MEDICINES_LIST = BASE_URL + "/fetch_medicine_detail.php";
 
     public static final String FETCH_HOSPITALS_LIST = BASE_URL + "/fetch_hospitals.php";
+
+    public static final String FETCH_SPECIALITY_IMAGE = BASE_URL + "/fetch_speciality_image.php";
+
 }
