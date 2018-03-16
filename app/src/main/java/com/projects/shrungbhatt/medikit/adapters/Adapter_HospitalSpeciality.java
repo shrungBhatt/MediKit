@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.activities.Activity_DoctorDetails;
 import com.projects.shrungbhatt.medikit.models.Res_HospitalList;
 import com.projects.shrungbhatt.medikit.models.Res_SpecialityImage;
 import com.projects.shrungbhatt.medikit.util.URLGenerator;
@@ -40,13 +41,14 @@ public class Adapter_HospitalSpeciality extends
 
     private Context mContext;
     private ArrayList<Res_HospitalList.List> mSpecialities;
+    private int mHospitalSelected;
     private List<String> mSpecialityArrayList = new ArrayList<>();//ArrayList for fetching images.
 
     public Adapter_HospitalSpeciality(Context context, ArrayList<Res_HospitalList.List> specialities,
                                       int hospitalSelected) {
         mContext = context;
         mSpecialities = specialities;
-
+        mHospitalSelected = hospitalSelected;
 
             List<String> stringList = Arrays.asList(mSpecialities.get(hospitalSelected).
                     getHospitalSpecialities().
@@ -63,7 +65,7 @@ public class Adapter_HospitalSpeciality extends
     }
 
     @Override
-    public void onBindViewHolder(HospitalSpecialityViewHolder holder, int position) {
+    public void onBindViewHolder(HospitalSpecialityViewHolder holder, final int position) {
 
         holder.mSpeciality.setText(mSpecialityArrayList.get(position));
         fetchSpecialityImage(holder.mHospitalSpeciality,
@@ -71,7 +73,9 @@ public class Adapter_HospitalSpeciality extends
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Do something
+                mContext.startActivity(Activity_DoctorDetails.newIntent(mContext,
+                        mSpecialities.get(mHospitalSelected).getHospitalName(),
+                        mSpecialityArrayList.get(position)));
             }
         });
     }
