@@ -35,7 +35,7 @@ public class Adapter_HospitalList extends RecyclerView.Adapter<Adapter_HospitalL
     }
 
     @Override
-    public void onBindViewHolder(HospitalViewHolder holder, int position) {
+    public void onBindViewHolder(HospitalViewHolder holder, final int position) {
 
         holder.mHospitalName.setText(mHospitalLists.get(position).getHospitalName().trim());
         holder.mHospitalAddress.setText(mHospitalLists.get(position)
@@ -48,7 +48,7 @@ public class Adapter_HospitalList extends RecyclerView.Adapter<Adapter_HospitalL
             @Override
             public void onClick(View view) {
                 mContext.startActivity(Activity_HospitalSpeciality.newIntent(mContext,
-                        mHospitalLists));
+                        mHospitalLists,position));
             }
         });
 

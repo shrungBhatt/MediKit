@@ -24,13 +24,17 @@ public class Activity_HospitalSpeciality extends BaseActivity {
 
 
     private static final String EXTRA_SPECIALITY_LIST = "speciality_list";
+    private static final String EXTRA_HOSPITAL_SELECTED = "hospital_selected";
     @BindView(R.id.disease_list_recycler_view)
     RecyclerView mHospitalSpecialityRecyclerView;
     private ArrayList<Res_HospitalList.List> mHospitalList;
+    private int mHospitalSelected;
 
-    public static Intent newIntent(Context context, ArrayList<Res_HospitalList.List> arrayList) {
+    public static Intent newIntent(Context context, ArrayList<Res_HospitalList.List> arrayList,
+                                   int hospitalSelected) {
         Intent intent = new Intent(context, Activity_HospitalSpeciality.class);
         intent.putExtra(EXTRA_SPECIALITY_LIST, arrayList);
+        intent.putExtra(EXTRA_HOSPITAL_SELECTED, hospitalSelected);
         return intent;
     }
 
@@ -44,9 +48,10 @@ public class Activity_HospitalSpeciality extends BaseActivity {
         mHospitalList = (ArrayList<Res_HospitalList.List>) getIntent().
                 getSerializableExtra(EXTRA_SPECIALITY_LIST);
 
+        mHospitalSelected = getIntent().getIntExtra(EXTRA_HOSPITAL_SELECTED,0);
         mHospitalSpecialityRecyclerView.setLayoutManager(new GridLayoutManager(this,
                 2));
         mHospitalSpecialityRecyclerView.setAdapter(new Adapter_HospitalSpeciality(this,
-                mHospitalList));
+                mHospitalList,mHospitalSelected));
     }
 }

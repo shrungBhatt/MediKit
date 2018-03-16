@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:background="@android:color/black" />
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/list_item_disease_name"

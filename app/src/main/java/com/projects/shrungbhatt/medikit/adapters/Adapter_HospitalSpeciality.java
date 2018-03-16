@@ -3,6 +3,7 @@ package com.projects.shrungbhatt.medikit.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,14 +42,17 @@ public class Adapter_HospitalSpeciality extends
     private ArrayList<Res_HospitalList.List> mSpecialities;
     private List<String> mSpecialityArrayList = new ArrayList<>();//ArrayList for fetching images.
 
-    public Adapter_HospitalSpeciality(Context context, ArrayList<Res_HospitalList.List> specialities) {
+    public Adapter_HospitalSpeciality(Context context, ArrayList<Res_HospitalList.List> specialities,
+                                      int hospitalSelected) {
         mContext = context;
         mSpecialities = specialities;
 
-        for (int i = 0; i < mSpecialities.size(); i++) {
-            mSpecialityArrayList = Arrays.asList(mSpecialities.get(i).getHospitalSpecialities().
+
+            List<String> stringList = Arrays.asList(mSpecialities.get(hospitalSelected).
+                    getHospitalSpecialities().
                     split(","));
-        }
+            mSpecialityArrayList.addAll(stringList);
+
 
     }
 
@@ -65,6 +68,12 @@ public class Adapter_HospitalSpeciality extends
         holder.mSpeciality.setText(mSpecialityArrayList.get(position));
         fetchSpecialityImage(holder.mHospitalSpeciality,
                 mSpecialityArrayList.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Do something
+            }
+        });
     }
 
     @Override
@@ -87,7 +96,8 @@ public class Adapter_HospitalSpeciality extends
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 Gson gson = new Gson();
                                 Res_SpecialityImage res_specialityImage;
-                                res_specialityImage = gson.fromJson(jsonObject.toString(), Res_SpecialityImage.class);
+                                res_specialityImage = gson.fromJson(jsonObject.toString(),
+                                        Res_SpecialityImage.class);
                                 Picasso.get().load(res_specialityImage.getSpecialityImageUrl()).
                                         into(target);
                             }
