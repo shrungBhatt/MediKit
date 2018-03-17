@@ -11,4 +11,11 @@
     <string name="error_field_required">This field is required</string>
     <string name="log_out">Log out</string>
     <string name="star">★</string>
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <string name="description">Description</string>
+
+    <string name="Choose_proper_timeslot">Choose proper time slot</string>
+    <string name="Please_select">Please select </string>
+
 </resources>

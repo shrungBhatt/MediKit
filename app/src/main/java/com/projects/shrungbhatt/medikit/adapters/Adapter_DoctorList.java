@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.activities.Activity_BookAppointment;
 import com.projects.shrungbhatt.medikit.models.Res_DoctorDetails;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Adapter_DoctorList extends RecyclerView.Adapter<Adapter_DoctorList.
     }
 
     @Override
-    public void onBindViewHolder(DoctorViewHolder holder, int position) {
+    public void onBindViewHolder(DoctorViewHolder holder, final int position) {
 
         holder.mDoctorName.setText(mDoctorsList.get(position).getDoctorName());
         holder.mDoctorDescription.setText(mDoctorsList.get(position).getDoctorSkills());
@@ -49,7 +50,9 @@ public class Adapter_DoctorList extends RecyclerView.Adapter<Adapter_DoctorList.
         holder.mBookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mContext.startActivity(Activity_BookAppointment.newIntent(
+                        mContext, mDoctorsList.get(position).getHospitalName(),
+                        mDoctorsList.get(position).getDoctorName()));
             }
         });
 
