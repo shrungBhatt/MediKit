@@ -8,8 +8,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,12 +20,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
 import com.projects.shrungbhatt.medikit.util.URLGenerator;
 
 import java.sql.Time;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -34,11 +40,12 @@ import butterknife.OnClick;
  * Created by jigsaw on 17/3/18.
  */
 
-public class Activity_BookAppointment extends BaseActivity {
+public class Activity_BookAppointment extends BaseActivity implements Validator.ValidationListener {
 
 
     private static final String EXTRA_HOSPITAL_NAME = "hospital_name";
     private static final String EXTRA_DOCTOR_NAME = "doctor_name";
+    @NotEmpty
     @BindView(R.id.appointment_description)
     AutoCompleteTextView mAppointmentDescription;
     @BindView(R.id.tv_setdate)
@@ -57,6 +64,7 @@ public class Activity_BookAppointment extends BaseActivity {
     TextView mAppointmentToTv;
     private String mHospitalName;
     private String mDoctorName;
+    private Validator mValidator;
 
 
     public static Intent newIntent(Context context,String hospitalName,String doctorName){
@@ -72,6 +80,9 @@ public class Activity_BookAppointment extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_appointment);
         ButterKnife.bind(this);
+
+        mValidator = new Validator(this);
+        mValidator.setValidationListener(this);
 
         mHospitalName = getIntent().getStringExtra(EXTRA_HOSPITAL_NAME);
         mDoctorName = getIntent().getStringExtra(EXTRA_DOCTOR_NAME);
@@ -91,18 +102,7 @@ public class Activity_BookAppointment extends BaseActivity {
                 toTimePickerDialog(mAppointmentToTv);
                 break;
             case R.id.add_task_fab_button:
-                if(TimeValidationwith12(mTvSettimeform.getText().toString(),
-                        mAppointmentToTv.getText().toString(),
-                        "Time slot for appointment",this)){
-                    addAppointment(this, MySharedPreferences.getStoredUsername(this),
-                            mDoctorName,
-                            1,
-                            mTvSettimeform.getText().toString(),
-                            mAppointmentToTv.getText().toString(),
-                            mTvSetdate.getText().toString());
-                }else {
-                    showErrorDialog("Please select proper time slot");
-                }
+                mValidator.validate();
                 break;
         }
     }
@@ -110,6 +110,8 @@ public class Activity_BookAppointment extends BaseActivity {
     private void addAppointment(Context context,
                                 final String userName,
                                 final String doctorName,
+                                final String hospitalName,
+                                final String description,
                                 final int statusId,
                                 final String timeFrom,
                                 final String timeTo,
@@ -140,6 +142,8 @@ public class Activity_BookAppointment extends BaseActivity {
                 Map<String,String> params = new HashMap<>();
                 params.put("user_name",userName);
                 params.put("doctor_name",doctorName);
+                params.put("hospital_name",hospitalName);
+                params.put("description",description);
                 params.put("appointment_status_id",String.valueOf(statusId));
                 params.put("appointment_from",timeFrom);
                 params.put("appointment_to",timeTo);
@@ -153,5 +157,39 @@ public class Activity_BookAppointment extends BaseActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
 
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        if(TimeValidationwith12(mTvSettimeform.getText().toString(),
+                mAppointmentToTv.getText().toString(),
+                "Time slot for appointment",this)){
+            addAppointment(this, MySharedPreferences.getStoredUsername(this),
+                    mDoctorName,
+                    mHospitalName,
+                    mAppointmentDescription.getText().toString(),
+                    1,
+                    mTvSettimeform.getText().toString(),
+                    mAppointmentToTv.getText().toString(),
+                    mTvSetdate.getText().toString());
+        }else {
+            showErrorDialog("Please select proper time slot");
+        }
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
