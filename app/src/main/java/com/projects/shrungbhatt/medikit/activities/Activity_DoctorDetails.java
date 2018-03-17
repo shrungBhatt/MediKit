@@ -65,12 +65,13 @@ public class Activity_DoctorDetails extends BaseActivity {
     }
 
     private void fetchDoctorDetails(final String hospitalName,final String doctorSpeciality){
+        showProgressBar(this,"Activity_DoctorDetails");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 URLGenerator.FETCH_DOCTOR_DETAILS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        hideProgressBar();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Gson gson = new Gson();
@@ -88,6 +89,7 @@ public class Activity_DoctorDetails extends BaseActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideProgressBar();
                 error.printStackTrace();
             }
         }){

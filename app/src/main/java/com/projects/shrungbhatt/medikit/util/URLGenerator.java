@@ -19,4 +19,6 @@ public class URLGenerator {
 
     public static final String FETCH_DOCTOR_DETAILS = BASE_URL + "/fetch_doctor_details.php";
 
+    public static final String ADD_APPOINTMENT_DETAILS = BASE_URL + "/add_appointment.php";
+
 }

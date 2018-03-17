@@ -11,7 +11,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
+import com.projects.shrungbhatt.medikit.util.URLGenerator;
+
+import java.sql.Time;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +91,67 @@ public class Activity_BookAppointment extends BaseActivity {
                 toTimePickerDialog(mAppointmentToTv);
                 break;
             case R.id.add_task_fab_button:
+                if(TimeValidationwith12(mTvSettimeform.getText().toString(),
+                        mAppointmentToTv.getText().toString(),
+                        "Time slot for appointment",this)){
+                    addAppointment(this, MySharedPreferences.getStoredUsername(this),
+                            mDoctorName,
+                            1,
+                            mTvSettimeform.getText().toString(),
+                            mAppointmentToTv.getText().toString(),
+                            mTvSetdate.getText().toString());
+                }else {
+                    showErrorDialog("Please select proper time slot");
+                }
                 break;
         }
+    }
+
+    private void addAppointment(Context context,
+                                final String userName,
+                                final String doctorName,
+                                final int statusId,
+                                final String timeFrom,
+                                final String timeTo,
+                                final String date){
+        showProgressBar(context,"tag");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                URLGenerator.ADD_APPOINTMENT_DETAILS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hideProgressBar();
+                        if(response.equalsIgnoreCase("Booked Appointment")){
+                            showToastMessage("Booked Appointment");
+                        }else{
+                            showToastMessage("Something went wrong");
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideProgressBar();
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("user_name",userName);
+                params.put("doctor_name",doctorName);
+                params.put("appointment_status_id",String.valueOf(statusId));
+                params.put("appointment_from",timeFrom);
+                params.put("appointment_to",timeTo);
+                params.put("appointment_date",date);
+
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
     }
 }

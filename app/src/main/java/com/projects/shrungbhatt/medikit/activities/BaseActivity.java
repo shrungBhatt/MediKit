@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.models.TimePickerDialogModel;
@@ -182,7 +184,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void TimeValidationwith12(String timefrom, String Timeto, String Errormsg,Context context) {
+    public void showToastMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean TimeValidationwith12(String timefrom, String Timeto, String Errormsg,Context context) {
         String TIME_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
         String fromtime = DateConverter.Time24ToString(timefrom);
         String totime = DateConverter.Time24ToString(Timeto);
@@ -203,24 +209,43 @@ public class BaseActivity extends AppCompatActivity {
                             (tvFrom == tvTo &&
                                     tvLastFrom == tvLastTo)) {
                         errorMessage = (context.getString(R.string.Choose_proper_timeslot));
+                        return false;
                     } else if ((tvFrom == tvTo && tvLastFrom < tvLastTo)
                             ||
                             (tvFrom < tvTo &&
                                     ((tvLastFrom <= tvLastTo) || (tvLastFrom >= tvLastTo)))) {
                         errorMessage = SUCCESS;
+                        return true;
                     } else {
                         errorMessage = (context.getString(R.string.Choose_proper_timeslot));
+                        return false;
                     }
 
                 } else {
                     errorMessage = (context.getString(R.string.Choose_proper_timeslot));
+                    return false;
                 }
             } else {
                 errorMessage = (context.getString(R.string.Please_select) + Errormsg);
+                return false;
             }
         } else {
             errorMessage = (context.getString(R.string.Please_select) + Errormsg);
+            return false;
         }
+    }
+
+    public void showErrorDialog(String msg) {
+        new android.support.v7.app.AlertDialog.Builder(this)
+                .setTitle("Alert")
+                .setMessage(msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create().show();
     }
 
 
