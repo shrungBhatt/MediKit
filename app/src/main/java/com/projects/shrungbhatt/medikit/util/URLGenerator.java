@@ -23,4 +23,6 @@ public class URLGenerator {
 
     public static final String FETCH_APPOINTMENTS = BASE_URL + "/fetch_appointments.php";
 
+    public static final String UPDATE_APPOINTMENTSTATUS = BASE_URL + "/update_appointment_status.php";
+
 }

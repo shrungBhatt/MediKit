@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.listeners.CallBack;
+import com.projects.shrungbhatt.medikit.listeners.UpdateAppointmentStatus;
 import com.projects.shrungbhatt.medikit.models.Res_AppointmentsList;
 import com.projects.shrungbhatt.medikit.util.Const;
 import com.projects.shrungbhatt.medikit.util.HashMapGenerator;
@@ -31,11 +33,14 @@ public class Adapter_AppointmentsList extends
 
     private Context mContext;
     private ArrayList<Res_AppointmentsList.List> mAppointments;
+    private UpdateAppointmentStatus mUpdateAppointmentStatus;
 
     public Adapter_AppointmentsList(Context context,
-                                    ArrayList<Res_AppointmentsList.List> appointments){
+                                    ArrayList<Res_AppointmentsList.List> appointments,
+                                    UpdateAppointmentStatus updateAppointmentStatus){
         mContext = context;
         mAppointments = appointments;
+        mUpdateAppointmentStatus = updateAppointmentStatus;
     }
 
     @Override
@@ -45,7 +50,7 @@ public class Adapter_AppointmentsList extends
     }
 
     @Override
-    public void onBindViewHolder(AppointmentViewHolder holder, int position) {
+    public void onBindViewHolder(AppointmentViewHolder holder, final int position) {
 
         appointmentStatusDisplay(holder,position,mContext);
         String doctorAppointment = "Appointment with " + mAppointments.get(position).getDoctorName();
@@ -58,6 +63,14 @@ public class Adapter_AppointmentsList extends
         holder.mListItemAppointmentTime.setText(time);
 
         holder.mListItemAppointmentDescription.setText(mAppointments.get(position).getDescription());
+
+        holder.mListItemCancelAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mUpdateAppointmentStatus.updateAppointmentStatus(mAppointments.get(position).getId(),
+                        Const.Cancelled);
+            }
+        });
 
 
     }
@@ -80,6 +93,7 @@ public class Adapter_AppointmentsList extends
                                 HashMapGenerator.getStatusFromHashMap(statusId),icon);
                 break;
             case Const.Cancelled:
+                holder.mListItemCancelAppointment.setVisibility(View.GONE);
                 setData(holder,context.getResources().getColor(R.color.rejected),
                         context.getResources().getColor(R.color.rejected),
                         HashMapGenerator.getStatusFromHashMap(statusId),icon);

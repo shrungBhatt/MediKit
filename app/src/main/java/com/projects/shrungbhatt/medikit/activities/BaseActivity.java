@@ -17,9 +17,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.listeners.CallBack;
 import com.projects.shrungbhatt.medikit.models.TimePickerDialogModel;
 import com.projects.shrungbhatt.medikit.util.DateConverter;
+import com.projects.shrungbhatt.medikit.util.URLGenerator;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,6 +36,8 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jigsaw on 12/3/18.
@@ -42,12 +52,46 @@ public class BaseActivity extends AppCompatActivity {
     private boolean mToTimeSelectFlag = false;
     private Calendar calender;
     private TimePickerDialogModel mTimePickerDialogModel;
+    private CallBack mCallBack;
+
 
     {
         mTimePickerDialogModel = new TimePickerDialogModel();
     }
 
-    private boolean isNetworkAvailableAndConnected () {
+    /**
+     * Date converter method used to convert the date in yyyy-MM-dd format.
+     *
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    public static String formatDate(int year, int month, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year, month, day);
+        Date date = cal.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        return sdf.format(date);
+    }
+
+    public static String TimeToString(String timeString) {
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
+            DateTime date = formatter.parseDateTime(timeString);
+            DateTimeFormatter dtfOut = DateTimeFormat.forPattern("hh:mm a");
+            return dtfOut.print(date);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private boolean isNetworkAvailableAndConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         boolean isNetworkAvailable = cm.getActiveNetworkInfo() != null;
@@ -124,24 +168,6 @@ public class BaseActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Date converter method used to convert the date in yyyy-MM-dd format.
-     *
-     * @param year
-     * @param month
-     * @param day
-     * @return
-     */
-    public static String formatDate(int year, int month, int day) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month, day);
-        Date date = cal.getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-        return sdf.format(date);
-    }
-
     public void showProgressBar(Context context, String TAG) {
         mProgressDialog = new Dialog(context);
         mProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -170,25 +196,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public static String TimeToString(String timeString) {
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm");
-            DateTime date = formatter.parseDateTime(timeString);
-            DateTimeFormatter dtfOut = DateTimeFormat.forPattern("hh:mm a");
-            return dtfOut.print(date);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
     public void showToastMessage(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public boolean TimeValidationwith12(String timefrom, String Timeto, String Errormsg,Context context) {
+    public boolean TimeValidationwith12(String timefrom, String Timeto, String Errormsg, Context context) {
         String TIME_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
         String fromtime = DateConverter.Time24ToString(timefrom);
         String totime = DateConverter.Time24ToString(Timeto);
@@ -246,6 +258,45 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 })
                 .create().show();
+    }
+
+
+    public void updateAppointmentStatus(final String id, final String statusId,CallBack callBack) {
+        showProgressBar(this, "BaseActivity");
+        mCallBack = callBack;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                URLGenerator.UPDATE_APPOINTMENTSTATUS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hideProgressBar();
+                        if (response.equalsIgnoreCase("Updated status")) {
+                            showToastMessage("Status updated");
+                            mCallBack.callBack();
+                        } else {
+                            showToastMessage("Something went wrong");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideProgressBar();
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", id);
+                params.put("status_id", statusId);
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
     }
 
 
