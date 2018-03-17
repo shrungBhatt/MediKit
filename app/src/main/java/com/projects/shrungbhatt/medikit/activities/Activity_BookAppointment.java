@@ -27,7 +27,6 @@ import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
 import com.projects.shrungbhatt.medikit.util.URLGenerator;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
