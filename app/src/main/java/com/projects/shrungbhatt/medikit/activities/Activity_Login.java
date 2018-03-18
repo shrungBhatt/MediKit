@@ -121,7 +121,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
 
     }
 
-    private void requestLogin(final String user_type, final String email, final String password) {
+    private void requestLogin(final String user_type, final String user_name, final String password) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 URLGenerator.USER_LOGIN,
@@ -132,7 +132,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
                             if (response != null &&
                                     !response.equals("Wrong Username or Password")) {
                                 MySharedPreferences.setStoredLoginStatus(Activity_Login.this, true);
-                                MySharedPreferences.setStoredUsername(Activity_Login.this, email);
+                                MySharedPreferences.setStoredUsername(Activity_Login.this, user_name);
                                 Intent i;
                                 if (mSignInAsDocCheckBox.isChecked()) {
                                     MySharedPreferences.setIsAdminLoggedOn(Activity_Login.this, true);
@@ -164,7 +164,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_type", user_type);
-                params.put("email", email);
+                params.put("user_name", user_name);
                 params.put("password", password);
                 return params;
             }

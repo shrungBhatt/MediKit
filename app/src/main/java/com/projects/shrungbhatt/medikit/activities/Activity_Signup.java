@@ -49,6 +49,9 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
     @NotEmpty
     private EditText mUserPassword;
 
+    @NotEmpty
+    private EditText mUsername;
+
     @ConfirmPassword
     @NotEmpty
     private EditText mRetypePassword;
@@ -72,6 +75,8 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
 
         mUserTypeCheckBox = findViewById(R.id.sign_up_as_doctor);
 
+        mUsername = findViewById(R.id.user_sign_up_username);
+
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -87,7 +92,8 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
     }
 
 
-    private void registerUser(final String email, final String userType, final String passWord) {
+    private void registerUser(final String email, final String userType, final String passWord,
+                              final String userName) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 URLGenerator.REGISTER_USER,
                 new Response.Listener<String>() {
@@ -122,6 +128,7 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
                 params.put("email", email);
                 params.put("user_type", userType);
                 params.put("password", passWord);
+                params.put("user_name",userName);
 
                 return params;
             }
@@ -138,12 +145,12 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
     public void onValidationSucceeded() {
         String email = mUserEmail.getText().toString();
         String password = mUserPassword.getText().toString().trim();
-
+        String userName = mUsername.getText().toString().trim();
 
         if(mUserTypeCheckBox.isChecked()) {
-            registerUser(email, Const.Doctor, password);
+            registerUser(email, Const.Doctor, password,userName);
         }else{
-            registerUser(email,Const.User,password);
+            registerUser(email,Const.User,password,userName);
         }
 
     }

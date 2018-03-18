@@ -29,7 +29,7 @@
                     android:id="@+id/user_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
+                    android:hint="@string/promt_username"
                     android:textSize="@dimen/text_size_16"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
