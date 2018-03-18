@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.projects.shrungbhatt.medikit.activities.Activity_MedicineList;
 import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.models.Res_DiseaseModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,8 @@ public class Adapter_DiseaseList extends
     @Override
     public void onBindViewHolder(DiseaseViewHolder holder, final int position) {
         holder.mTextView.setText(mList.get(position).getDiseaseName());
+
+        Picasso.get().load(mList.get(position).getImageUrl()).into(holder.mImageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

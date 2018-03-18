@@ -33,9 +33,20 @@ public class Res_DiseaseModel extends BaseModel{
         @SerializedName("disease_name")
         @Expose
         private String diseaseName;
+        @SerializedName("image_url")
+        @Expose
+        private String imageUrl;
         @SerializedName("medicines_used")
         @Expose
         private String medicinesUsed;
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
 
         public String getId() {
             return id;
