@@ -10,6 +10,9 @@ public class Const {
     public static final int Cancelled = 2;
     public static final int Confirmed = 3;
 
+    public static final String User = "0";
+    public static final String Doctor = "1";
+
 
 
 }

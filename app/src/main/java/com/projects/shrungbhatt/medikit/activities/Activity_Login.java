@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,11 +19,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.util.Const;
 import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
+import com.projects.shrungbhatt.medikit.util.URLGenerator;
 import com.projects.shrungbhatt.medikit.util.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,15 +40,21 @@ import java.util.Map;
  */
 
 
-public class Activity_Login extends BaseActivity {
+public class Activity_Login extends BaseActivity implements Validator.ValidationListener {
 
     private static final String TAG = "LoginActivity";
     public static Activity mActivity;
     public static Boolean mActive;
+
+    @NotEmpty
+    @Email
     private EditText mUserEmail;
+    @Password
     private EditText mUserPassword;
+    private CheckBox mSignInAsDocCheckBox;
     private Button mLoginButton;
     private Button mSignUpButton;
+    private Validator mValidator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,13 +63,17 @@ public class Activity_Login extends BaseActivity {
 
         mActivity = this;
 
+        mValidator = new Validator(this);
+        mValidator.setValidationListener(this);
+
+        mSignInAsDocCheckBox = findViewById(R.id.sign_in_as_doctor);
 
         //To check whether the user is logged in or not.
         boolean status = MySharedPreferences.getStoredLoginStatus(Activity_Login.this);
         if (status) {
             Intent i;
             if (MySharedPreferences.isAdminLoggedOn(this)) {
-                i = new Intent(this, Activity_DiseaseList.class);
+                i = new Intent(this, Activity_AppointmentList.class);
             } else {
                 i = new Intent(this, Activity_DiseaseList.class);
             }
@@ -75,24 +94,15 @@ public class Activity_Login extends BaseActivity {
                 String emailId = mUserEmail.getText().toString();
                 String pass = mUserPassword.getText().toString();
 
-                if (!emailId.equals("") || !pass.equals("")) {
-                    if (emailId.equals("admin")) {
-                        macId = "00:00:00:00:00:00";
-                        if (isNetworkAvailableAndConnected())
-                            requestLogin(macId, emailId, pass);//Login request for admin
-                        else
-                            Toast.makeText(Activity_Login.this, "No internet connection",
-                                    Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (isNetworkAvailableAndConnected())
-                            requestLogin(macId, emailId, pass);
-                        else
-                            Toast.makeText(Activity_Login.this, "No internet connection",
-                                    Toast.LENGTH_SHORT).show();
-                    }//Login request for the user.
-                } else {
-                    mUserEmail.setError("Fill it up");
-                    mUserPassword.setError("Fill it up");
+                if(isNetworkAvailableAndConnected()){
+
+                    if(mSignInAsDocCheckBox.isChecked()){
+                        requestLogin(Const.Doctor,emailId,pass);
+
+                    }else{
+                        requestLogin(Const.User,emailId,pass);
+                    }
+
                 }
 
             }
@@ -111,10 +121,10 @@ public class Activity_Login extends BaseActivity {
 
     }
 
-    private void requestLogin(final String mac_id, final String userName, final String password) {
+    private void requestLogin(final String user_type, final String email, final String password) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://ersnexus.esy.es/cook_book_login.php",
+                URLGenerator.USER_LOGIN,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -122,11 +132,11 @@ public class Activity_Login extends BaseActivity {
                             if (response != null &&
                                     !response.equals("Wrong Username or Password")) {
                                 MySharedPreferences.setStoredLoginStatus(Activity_Login.this, true);
-                                MySharedPreferences.setStoredUsername(Activity_Login.this, userName);
+                                MySharedPreferences.setStoredUsername(Activity_Login.this, email);
                                 Intent i;
-                                if (userName.equals("admin")) {
+                                if (mSignInAsDocCheckBox.isChecked()) {
                                     MySharedPreferences.setIsAdminLoggedOn(Activity_Login.this, true);
-                                    i = new Intent(Activity_Login.this, Activity_DiseaseList.class);
+                                    i = new Intent(Activity_Login.this, Activity_AppointmentList.class);
                                     finish();
                                 } else {
                                     i = new Intent(Activity_Login.this, Activity_DiseaseList.class);
@@ -153,8 +163,8 @@ public class Activity_Login extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("mac_id", mac_id);
-                params.put("username", userName);
+                params.put("user_type", user_type);
+                params.put("email", email);
                 params.put("password", password);
                 return params;
             }
@@ -187,5 +197,15 @@ public class Activity_Login extends BaseActivity {
 
         return isNetworkAvailable &&
                 cm.getActiveNetworkInfo().isConnected();
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+
     }
 }

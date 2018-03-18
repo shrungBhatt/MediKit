@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,10 +17,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.projects.shrungbhatt.medikit.R;
+import com.projects.shrungbhatt.medikit.util.Const;
+import com.projects.shrungbhatt.medikit.util.URLGenerator;
 import com.projects.shrungbhatt.medikit.util.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,14 +37,25 @@ import java.util.Map;
  * Created by jigsaw on 28/1/18.
  */
 
-public class Activity_Signup extends BaseActivity {
+public class Activity_Signup extends BaseActivity implements Validator.ValidationListener {
 
     private static final String TAG = "Activity_Signup";
+
+    @Email
+    @NotEmpty
     private EditText mUserEmail;
+
+    @Password
+    @NotEmpty
     private EditText mUserPassword;
+
+    @ConfirmPassword
+    @NotEmpty
     private EditText mRetypePassword;
     private Button mSignUpButton;
+    private CheckBox mUserTypeCheckBox;
     private String mMacId;
+    private Validator mValidator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,28 +70,16 @@ public class Activity_Signup extends BaseActivity {
 
         mRetypePassword = (EditText) findViewById(R.id.user_sign_up_reenter_password);
 
+        mUserTypeCheckBox = findViewById(R.id.sign_up_as_doctor);
+
+        mValidator = new Validator(this);
+        mValidator.setValidationListener(this);
+
         mSignUpButton = (Button) findViewById(R.id.user_register_button);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String userName = mUserEmail.getText().toString();
-                String password = mUserPassword.getText().toString().trim();
-                String repass = mRetypePassword.getText().toString().trim();
-
-
-
-                if(password.isEmpty()){
-                    mUserPassword.setError("Enter a Password");
-                }else if(userName.isEmpty()){
-                    mUserEmail.setError("Enter username");
-                }else if(repass.equals(password)){
-                    registerUser(mMacId,userName,password);
-                }else{
-                    mRetypePassword.setError("Passwords does not match");
-                }
-
-
+                mValidator.validate();
             }
         });
 
@@ -78,9 +87,9 @@ public class Activity_Signup extends BaseActivity {
     }
 
 
-    private void registerUser(final String mac_id, final String userName, final String passWord) {
+    private void registerUser(final String email, final String userType, final String passWord) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://ersnexus.esy.es/cook_book_register.php",
+                URLGenerator.REGISTER_USER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -94,7 +103,7 @@ public class Activity_Signup extends BaseActivity {
                                 startActivity(intent);
                                 finish();
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -103,17 +112,17 @@ public class Activity_Signup extends BaseActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG,error.toString());
+                        Log.e(TAG, error.toString());
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (!mac_id.equals("")) {
-                    params.put("mac_id", mac_id);
-                    params.put("username",userName);
-                    params.put("password",passWord);
-                }
+
+                params.put("email", email);
+                params.put("user_type", userType);
+                params.put("password", passWord);
+
                 return params;
             }
 
@@ -125,4 +134,32 @@ public class Activity_Signup extends BaseActivity {
     }
 
 
+    @Override
+    public void onValidationSucceeded() {
+        String email = mUserEmail.getText().toString();
+        String password = mUserPassword.getText().toString().trim();
+
+
+        if(mUserTypeCheckBox.isChecked()) {
+            registerUser(email, Const.Doctor, password);
+        }else{
+            registerUser(email,Const.User,password);
+        }
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
