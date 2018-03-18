@@ -1,21 +1,13 @@
 package com.projects.shrungbhatt.medikit.activities;
 
-import android.app.Dialog;
-import android.content.Context;
+
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -79,6 +71,8 @@ public class Activity_DiseaseList extends BaseActivity {
                 Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show();
             }
             return true;
+        }else if(id == R.id.hospitals){
+            startActivity(new Intent(this,Activity_HospitalList.class));
         }
         return super.onOptionsItemSelected(item);
     }

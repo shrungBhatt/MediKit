@@ -10,15 +10,4 @@
         app:showAsAction="ifRoom" />
 
 
-
-    <item
-        android:id="@+id/hospitals"
-        android:title="@string/hospitals"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/log_out_menu_item"
-        android:title="@string/log_out"
-        app:showAsAction="never" />
-
 </menu>
