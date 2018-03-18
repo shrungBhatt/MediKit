@@ -122,12 +122,13 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
     }
 
     private void requestLogin(final String user_type, final String user_name, final String password) {
-
+        showProgressBar(this,TAG);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 URLGenerator.USER_LOGIN,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        hideProgressBar();
                         try {
                             if (response != null &&
                                     !response.equals("Wrong Username or Password")) {
@@ -157,6 +158,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        hideProgressBar();
                         Log.e(TAG, error.toString());
                     }
                 }) {

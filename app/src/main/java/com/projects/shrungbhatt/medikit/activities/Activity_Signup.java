@@ -94,11 +94,13 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
 
     private void registerUser(final String email, final String userType, final String passWord,
                               final String userName) {
+        showProgressBar(this,TAG);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 URLGenerator.REGISTER_USER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        hideProgressBar();
                         try {
                             if (response.equals("Insert SuccessFul")) {
                                 Toast.makeText(getApplicationContext(), "Registration Complete",
@@ -110,6 +112,7 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
                                 finish();
                             }
                         } catch (Exception e) {
+                            hideProgressBar();
                             e.printStackTrace();
                         }
 
