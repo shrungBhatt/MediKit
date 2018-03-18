@@ -1,21 +1,13 @@
 package com.projects.shrungbhatt.medikit.activities;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,41 +18,44 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.projects.shrungbhatt.medikit.R;
-import com.projects.shrungbhatt.medikit.adapters.Adapter_DiseaseList;
-import com.projects.shrungbhatt.medikit.models.Res_DiseaseModel;
-import com.projects.shrungbhatt.medikit.util.ItemDecorationAlbumColumns;
+import com.projects.shrungbhatt.medikit.adapters.Adapter_DoctorAppointmentsList;
+import com.projects.shrungbhatt.medikit.listeners.CallBack;
+import com.projects.shrungbhatt.medikit.listeners.UpdateAppointmentStatus;
+import com.projects.shrungbhatt.medikit.models.Res_AppointmentsList;
 import com.projects.shrungbhatt.medikit.util.MySharedPreferences;
 import com.projects.shrungbhatt.medikit.util.URLGenerator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Activity_DiseaseList extends BaseActivity {
+/**
+ * Created by jigsaw on 18/3/18.
+ */
 
-    @BindView(R.id.disease_list_recycler_view)
-    RecyclerView diseaseListRecyclerView;
+public class Activity_DoctorAppointmentList extends BaseActivity implements UpdateAppointmentStatus,
+        CallBack {
 
+    @BindView(R.id.doctor_appointment_list_recycler_view)
+    RecyclerView mDoctorAppointmentListRecyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_disease_list);
+        setContentView(R.layout.activity_doctor_appointment_list);
         ButterKnife.bind(this);
 
+        mDoctorAppointmentListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        diseaseListRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        diseaseListRecyclerView.addItemDecoration(new ItemDecorationAlbumColumns(1, 2));
-
-        fetchDiseases(",");
+        fetchAppointments(MySharedPreferences.getStoredUsername(this));
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,8 +64,9 @@ public class Activity_DiseaseList extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.log_out_menu_item) {
             if(isNetworkAvailableAndConnected()){
-                MySharedPreferences.setStoredLoginStatus(Activity_DiseaseList.this,false);
-                Intent i = new Intent(Activity_DiseaseList.this, Activity_Login.class);
+                MySharedPreferences.setStoredLoginStatus(Activity_DoctorAppointmentList.this,false);
+                MySharedPreferences.setIsAdminLoggedOn(this,false);
+                Intent i = new Intent(Activity_DoctorAppointmentList.this, Activity_Login.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
@@ -86,47 +82,33 @@ public class Activity_DiseaseList extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_search_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                fetchDiseases(s);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return true;
-            }
-        });
         return true;
     }
 
-    private void fetchDiseases(final String query) {
-        showProgressBar(Activity_DiseaseList.this,"TAGG");
+
+    private void fetchAppointments(final String doctorName) {
+        showProgressBar(this, "");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                URLGenerator.FETCH_DISEASES_LIST,
+                URLGenerator.FETCH_DOCTOR_APPOINTMENTS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        hideProgressBar();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Gson gson = new Gson();
-                            Res_DiseaseModel res_diseaseModel;
-                            res_diseaseModel = gson.fromJson(jsonObject.toString(), Res_DiseaseModel.class);
-                            ArrayList<Res_DiseaseModel.List> list = res_diseaseModel.getList();
-                            hideProgressBar();
-                            diseaseListRecyclerView.setAdapter(new
-                                    Adapter_DiseaseList(Activity_DiseaseList.this,
-                                    list));
+                            Res_AppointmentsList resAppointmentsList;
+                            resAppointmentsList = gson.fromJson(jsonObject.toString(), Res_AppointmentsList.class);
 
+                            mDoctorAppointmentListRecyclerView.setAdapter(new
+                                    Adapter_DoctorAppointmentsList(Activity_DoctorAppointmentList.this
+                                    ,resAppointmentsList.getList(),
+                                    Activity_DoctorAppointmentList.this));
                         } catch (JSONException e) {
-                            e.printStackTrace();
                             hideProgressBar();
+                            e.printStackTrace();
                         }
 
 
@@ -134,27 +116,34 @@ public class Activity_DiseaseList extends BaseActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
                 hideProgressBar();
+                error.printStackTrace();
+
             }
         }) {
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (query != null) {
-                    params.put("query", query);
-                }
+                params.put("doctor_name", doctorName);
+
                 return params;
             }
 
         };
-
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
     }
 
+    @Override
+    public void callBack() {
+        fetchAppointments(MySharedPreferences.getStoredUsername(this));
+    }
 
-
-
+    @Override
+    public void updateAppointmentStatus(String appointmentId, int statusId) {
+        updateAppointmentStatus(appointmentId,
+                String.valueOf(statusId), this);
+    }
 }

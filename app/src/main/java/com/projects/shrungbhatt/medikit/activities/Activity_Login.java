@@ -73,7 +73,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
         if (status) {
             Intent i;
             if (MySharedPreferences.isAdminLoggedOn(this)) {
-                i = new Intent(this, Activity_AppointmentList.class);
+                i = new Intent(this, Activity_DoctorAppointmentList.class);
             } else {
                 i = new Intent(this, Activity_DiseaseList.class);
             }
@@ -136,7 +136,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
                                 Intent i;
                                 if (mSignInAsDocCheckBox.isChecked()) {
                                     MySharedPreferences.setIsAdminLoggedOn(Activity_Login.this, true);
-                                    i = new Intent(Activity_Login.this, Activity_AppointmentList.class);
+                                    i = new Intent(Activity_Login.this, Activity_DoctorAppointmentList.class);
                                     finish();
                                 } else {
                                     i = new Intent(Activity_Login.this, Activity_DiseaseList.class);
@@ -190,14 +190,7 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
         mActive = false;
     }
 
-    private boolean isNetworkAvailableAndConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
-        boolean isNetworkAvailable = cm.getActiveNetworkInfo() != null;
-
-        return isNetworkAvailable &&
-                cm.getActiveNetworkInfo().isConnected();
-    }
 
     @Override
     public void onValidationSucceeded() {

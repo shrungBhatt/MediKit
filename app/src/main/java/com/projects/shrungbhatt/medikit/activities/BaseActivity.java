@@ -91,7 +91,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNetworkAvailableAndConnected() {
+    public boolean isNetworkAvailableAndConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         boolean isNetworkAvailable = cm.getActiveNetworkInfo() != null;

@@ -29,4 +29,5 @@ public class URLGenerator {
 
     public static final String USER_LOGIN = BASE_URL + "/medikit_login.php";
 
+    public static final String FETCH_DOCTOR_APPOINTMENTS = BASE_URL + "/fetch_doctor_appointments.php";
 }
