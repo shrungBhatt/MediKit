@@ -20,5 +20,6 @@
     <string name="Please_select">Please select </string>
     <string name="hospitals">Hospitals</string>
     <string name="search">Search</string>
+    <string name="appointments">Appointments</string>
 
 </resources>

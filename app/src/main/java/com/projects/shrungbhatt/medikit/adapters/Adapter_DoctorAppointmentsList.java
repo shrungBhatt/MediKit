@@ -92,6 +92,7 @@ public class Adapter_DoctorAppointmentsList extends
                                 HashMapGenerator.getStatusFromHashMap(statusId),icon);
                 break;
             case Const.Cancelled:
+                holder.mListItemConfirmAppointment.setVisibility(View.GONE);
                 setData(holder,context.getResources().getColor(R.color.rejected),
                         context.getResources().getColor(R.color.rejected),
                         HashMapGenerator.getStatusFromHashMap(statusId),icon);

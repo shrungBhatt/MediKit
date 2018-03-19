@@ -73,6 +73,8 @@ public class Activity_DiseaseList extends BaseActivity {
             return true;
         }else if(id == R.id.hospitals){
             startActivity(new Intent(this,Activity_HospitalList.class));
+        }else if(id == R.id.appointments){
+            startActivity(new Intent(this,Activity_AppointmentList.class));
         }
         return super.onOptionsItemSelected(item);
     }
