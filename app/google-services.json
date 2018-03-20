@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "358550113809",
+    "firebase_url": "https://medikit-eeaa4.firebaseio.com",
+    "project_id": "medikit-eeaa4",
+    "storage_bucket": "medikit-eeaa4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358550113809:android:bdddcd85978a4d42",
+        "android_client_info": {
+          "package_name": "com.projects.shrungbhatt.medikit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358550113809-06ahqkrhuufrh8mqsc8q5obol827gurd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projects.shrungbhatt.medikit",
+            "certificate_hash": "3009de49ea016690bc22237fdddaff8ca1d389ca"
+          }
+        },
+        {
+          "client_id": "358550113809-iqcnh1oa6qbad4k3dlkc777709ek2fs8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCumY51dYFur0rz94VNw34EjZhipN1xlFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358550113809-iqcnh1oa6qbad4k3dlkc777709ek2fs8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
