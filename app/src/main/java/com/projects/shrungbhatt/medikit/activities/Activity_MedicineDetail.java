@@ -79,15 +79,22 @@ public class Activity_MedicineDetail extends BaseActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONObject jsonObject = null;
+                        JSONObject jsonObject ;
                         try {
                             jsonObject = new JSONObject(response);
                             Gson gson = new Gson();
                             Res_MedicineDetail res_medicineDetail;
                             res_medicineDetail = gson.fromJson(jsonObject.toString(), Res_MedicineDetail.class);
                             ArrayList<Res_MedicineDetail.List> list = res_medicineDetail.getList();
-                            medicineDetailDescriptionTv.setText(list.get(0).getMedicineDesc());
-                            medicineDetailHowToUseTv.setText(list.get(0).getMedicineUse());
+                            try {
+                                if(list != null){
+                                    medicineDetailDescriptionTv.setText(list.get(0).getMedicineDesc());
+                                    medicineDetailHowToUseTv.setText(list.get(0).getMedicineUse());
+                                }
+
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             hideProgressBar();
                         } catch (JSONException e) {
                             e.printStackTrace();
