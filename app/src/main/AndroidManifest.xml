@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBTGXZ4qdo5XomVYPkfx4cvJ3JxfcpugD4" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity android:name=".activities.Activity_SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -74,6 +85,9 @@
         </activity>
 
         <activity android:name=".activities.Activity_DoctorAppointmentList"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activities.Activity_NearbyHospitals"
             android:screenOrientation="portrait"/>
 
     </application>

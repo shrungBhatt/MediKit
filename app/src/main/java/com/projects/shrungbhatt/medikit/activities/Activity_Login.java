@@ -82,11 +82,11 @@ public class Activity_Login extends BaseActivity implements Validator.Validation
         }
 
 
-        mUserEmail = (EditText) findViewById(R.id.user_email);
+        mUserEmail = findViewById(R.id.user_email);
 
-        mUserPassword = (EditText) findViewById(R.id.user_password);
+        mUserPassword = findViewById(R.id.user_password);
 
-        mLoginButton = (Button) findViewById(R.id.email_sign_in_button);
+        mLoginButton = findViewById(R.id.email_sign_in_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
