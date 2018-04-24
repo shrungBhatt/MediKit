@@ -328,6 +328,7 @@ public class Activity_Signup extends BaseActivity implements Validator.Validatio
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        hideProgressBar();
                         Log.e(TAG, error.toString());
                     }
                 }) {

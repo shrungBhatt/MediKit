@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Re-type Password"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:textSize="@dimen/text_size_16"
                     android:maxLines="1"
                     android:singleLine="true"/>
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Phone number"
                     android:inputType="phone"
-                    android:maxLength="10"
+                    android:maxLength="13"
                     android:textSize="@dimen/text_size_16"
                     android:maxLines="1"
                     android:singleLine="true"/>

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "358550113809-c9sctv6mfc952a4al4fs7hn0h3nsv3tm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projects.shrungbhatt.medikit",
+            "certificate_hash": "2fc1f13b8831e88866845f77c31aadece261e541"
+          }
+        },
+        {
           "client_id": "358550113809-06ahqkrhuufrh8mqsc8q5obol827gurd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
