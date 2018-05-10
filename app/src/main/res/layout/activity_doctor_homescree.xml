@@ -29,8 +29,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:textSize="24sp"
-            android:layout_marginLeft="5dp"
-            android:text="Parth Panchal"/>
+            android:layout_marginLeft="5dp"/>
 
     </LinearLayout>
 
