@@ -57,7 +57,7 @@ public class Activity_DoctorAppointmentList extends BaseActivity implements Upda
     }
 
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -77,15 +77,15 @@ public class Activity_DoctorAppointmentList extends BaseActivity implements Upda
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_menu, menu);
 
         return true;
-    }
+    }*/
 
 
     private void fetchAppointments(final String doctorName) {

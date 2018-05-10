@@ -90,6 +90,12 @@
         <activity android:name=".activities.Activity_NearbyHospitals"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activities.Activity_DoctorHomeScreen"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activities.Activity_DoctorProfile"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
