@@ -30,4 +30,8 @@ public class URLGenerator {
     public static final String USER_LOGIN = BASE_URL + "/medikit_login.php";
 
     public static final String FETCH_DOCTOR_APPOINTMENTS = BASE_URL + "/fetch_doctor_appointments.php";
+
+    public static final String FETCH_DOCTOR_USER_PROFILE = BASE_URL + "/fetch_doctor_user_profile.php";
+
+    public static final String UPDATE_DOCTOR_USER_PROFILE = BASE_URL + "/medikit_update_doctor_profile.php";
 }

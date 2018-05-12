@@ -25,7 +25,7 @@ public class Res_DoctorDetails extends BaseModel {
     }
 
 
-    public class List extends BaseModel {
+    public class List {
 
         @SerializedName("id")
         @Expose
@@ -33,6 +33,9 @@ public class Res_DoctorDetails extends BaseModel {
         @SerializedName("doctor_name")
         @Expose
         private String doctorName;
+        @SerializedName("photo_url")
+        @Expose
+        private String photoUrl;
         @SerializedName("doctor_speciality")
         @Expose
         private String doctorSpeciality;
@@ -42,6 +45,12 @@ public class Res_DoctorDetails extends BaseModel {
         @SerializedName("doctor_skills")
         @Expose
         private String doctorSkills;
+        @SerializedName("qualification")
+        @Expose
+        private String qualification;
+        @SerializedName("experience")
+        @Expose
+        private String experience;
 
         public String getId() {
             return id;
@@ -57,6 +66,14 @@ public class Res_DoctorDetails extends BaseModel {
 
         public void setDoctorName(String doctorName) {
             this.doctorName = doctorName;
+        }
+
+        public String getPhotoUrl() {
+            return photoUrl;
+        }
+
+        public void setPhotoUrl(String photoUrl) {
+            this.photoUrl = photoUrl;
         }
 
         public String getDoctorSpeciality() {
@@ -82,5 +99,22 @@ public class Res_DoctorDetails extends BaseModel {
         public void setDoctorSkills(String doctorSkills) {
             this.doctorSkills = doctorSkills;
         }
+
+        public String getQualification() {
+            return qualification;
+        }
+
+        public void setQualification(String qualification) {
+            this.qualification = qualification;
+        }
+
+        public String getExperience() {
+            return experience;
+        }
+
+        public void setExperience(String experience) {
+            this.experience = experience;
+        }
+
     }
 }
