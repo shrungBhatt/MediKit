@@ -13,6 +13,18 @@
         android:padding="5dp"
         android:background="@color/colorPrimary">
 
+        <TextView
+            android:id="@+id/user_profile_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            android:layout_marginLeft="10dp"
+            android:text="Parth Panchal"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
         <ImageView
             android:id="@+id/user_profile_close"
             android:layout_width="wrap_content"
@@ -51,34 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="2.5dp"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Doctor: "
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/user_profile_user_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:enabled="false"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
