@@ -42,7 +42,8 @@
                 android:id="@+id/doctor_profile_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="top"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"/>
 
