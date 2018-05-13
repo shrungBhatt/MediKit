@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.projects.shrungbhatt.medikit.R;
 import com.projects.shrungbhatt.medikit.activities.Activity_BookAppointment;
+import com.projects.shrungbhatt.medikit.activities.Activity_DoctorProfileDetails;
 import com.projects.shrungbhatt.medikit.models.Res_DoctorDetails;
 
 import java.util.ArrayList;
@@ -56,6 +59,13 @@ public class Adapter_DoctorList extends RecyclerView.Adapter<Adapter_DoctorList.
             }
         });
 
+        holder.mDoctorProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(Activity_DoctorProfileDetails.newIntent(mContext,mDoctorsList.get(position).getDoctorName()));
+            }
+        });
+
     }
 
     @Override
@@ -69,6 +79,7 @@ public class Adapter_DoctorList extends RecyclerView.Adapter<Adapter_DoctorList.
         private Button mBookAppointment;
         private TextView mDoctorSpeciality;
         private TextView mDoctorDescription;
+        private ImageButton mDoctorProfile;
 
         DoctorViewHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_doctor,parent,false));
@@ -77,6 +88,7 @@ public class Adapter_DoctorList extends RecyclerView.Adapter<Adapter_DoctorList.
             mBookAppointment = itemView.findViewById(R.id.list_item_doctor_book_appointment);
             mDoctorSpeciality = itemView.findViewById(R.id.list_item_doctor_speciality);
             mDoctorDescription = itemView.findViewById(R.id.list_item_doctor_description);
+            mDoctorProfile = itemView.findViewById(R.id.doctor_profile_image);
         }
 
     }

@@ -96,6 +96,10 @@
         <activity android:name=".activities.Activity_DoctorProfile"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activities.Activity_DoctorProfileDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/UserDialog"/>
+
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:descendantFocusability="blocksDescendants"
             android:layout_marginTop="10dp">
 
             <TextView
@@ -35,17 +36,14 @@
                 android:textStyle="bold" />
 
 
-            <Button
-                android:id="@+id/list_item_doctor_book_appointment"
+
+            <ImageButton
+                android:id="@+id/doctor_profile_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="Book Appointment"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"
-                android:textAllCaps="false"
-                android:textSize="@dimen/text_size_14"/>
+                android:src="@drawable/doctor_profile"/>
+
 
         </RelativeLayout>
 
@@ -93,6 +91,18 @@
             android:textSize="@dimen/text_size_14"
             android:textStyle="bold" />
 
+
+        <Button
+            android:id="@+id/list_item_doctor_book_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="Book Appointment"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14"/>
 
     </LinearLayout>
 
