@@ -87,6 +87,7 @@ public class Adapter_DoctorAppointmentsList extends
 
         switch (statusId) {
             case Const.Pending:
+                holder.mListItemConfirmAppointment.setVisibility(View.VISIBLE);
                 setData(holder,context.getResources().getColor(R.color.pending),
                         context.getResources().getColor(R.color.pending),
                                 HashMapGenerator.getStatusFromHashMap(statusId),icon);
