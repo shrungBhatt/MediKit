@@ -88,6 +88,7 @@ public class Adapter_AppointmentsList extends
 
         switch (statusId) {
             case Const.Pending:
+                holder.mListItemCancelAppointment.setVisibility(View.VISIBLE);
                 setData(holder,context.getResources().getColor(R.color.pending),
                         context.getResources().getColor(R.color.pending),
                                 HashMapGenerator.getStatusFromHashMap(statusId),icon);
@@ -99,6 +100,7 @@ public class Adapter_AppointmentsList extends
                         HashMapGenerator.getStatusFromHashMap(statusId),icon);
                 break;
             case Const.Confirmed:
+                holder.mListItemCancelAppointment.setVisibility(View.VISIBLE);
                 setData(holder,context.getResources().getColor(R.color.approved),
                         context.getResources().getColor(R.color.approved),
                         HashMapGenerator.getStatusFromHashMap(statusId),icon);
