@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/cookbook"
+        android:src="@drawable/healingzone"
         android:layout_gravity="center"/>
 
 
